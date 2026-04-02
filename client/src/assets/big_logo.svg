@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 249 460">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 7px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-3, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-3, .cls-4 {
+        fill: #8cc63f;
+      }
+
+      .cls-4 {
+        font-family: Poppins-ExtraBold, Poppins;
+        font-size: 118px;
+        font-weight: 700;
+      }
+
+      .cls-5 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-2" width="249" height="460"/>
+    </clipPath>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g class="cls-5">
+      <path class="cls-3" d="M220.55,0H29.45C13.74,0,1,12.74,1,28.45v302.11c0,15.71,12.74,28.45,28.45,28.45h30.84c-.18-1.98-.29-3.98-.29-6,0-35.9,29.1-65,65-65s65,29.1,65,65c0,2.02-.11,4.02-.29,6h30.84c15.71,0,28.45-12.74,28.45-28.45V28.45c0-15.71-12.74-28.45-28.45-28.45Z"/>
+      <path class="cls-1" d="M-65.5-34.5C-55.59-10.24-19.88,68.32,63.5,102.5c77.03,31.57,173.15,16.42,177-5,1.97-10.94-18.88-28.28-40-34C98.59,35.88-12.82,277.56-90.5,250.5c-32.12-11.19-50.94-65.71-36-84,40.53-49.63,331.34,165.16,370,118,17.2-20.98-16.43-92.67-56-98-44.13-5.94-67.58,74.44-138,131C-.15,357.38-83.52,393.75-231.5,378.5"/>
+      <text class="cls-4" transform="translate(-6.49 458.66)"><tspan x="0" y="0">Milo</tspan></text>
+    </g>
+  </g>
+</svg>
