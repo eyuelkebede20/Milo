@@ -1,31 +1,25 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const jwt = require('jsonwebtoken');
 
-const auth = async (req, res, next) => {
-  // 1. Get token from header
-  const authHeader = req.header("Authorization");
-  const token = authHeader && authHeader.split(" ")[1]; // Format: "Bearer <token>"
-
-  if (!token) {
-    return res.status(401).json({ message: "No token, authorization denied" });
-  }
+// Verify Token and attach User
+exports.protect = async (req, res, next) => {
+  let token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Not authorized' });
 
   try {
-    // 2. Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // 3. Attach user and event context to request
-    // Optimization: Find user to ensure they weren't deleted/disabled
-    const user = await User.findById(decoded.id).select("-password");
-    if (!user) {
-      return res.status(401).json({ message: "User no longer exists" });
-    }
-
-    req.user = user;
+    req.user = decoded; // Contains id, role, and agencyId
     next();
   } catch (err) {
-    res.status(401).json({ message: "Token is not valid" });
+    res.status(401).json({ error: 'Token failed' });
   }
 };
 
-module.exports = auth;
+// Enforce Minimum Role
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ error: 'Permission denied for this role' });
+    }
+    next();
+  };
+};

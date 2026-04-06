@@ -1,29 +1,23 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const { generateToken } = require("../utils/jwtHelper");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
-
-    // Use the model method instead of manual bcrypt compare
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
-    const token = generateToken(user);
-
-    res.json({
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        role: user.role,
-        assignedEventId: user.assignedEventId,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
+  const user = await User.findOne({ email });
+  if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
+    return res.status(401).json({ error: 'Invalid credentials' });
   }
+
+  // Payload dictates access level across the app
+  const payload = {
+    id: user._id,
+    role: user.role,
+    agencyId: user.agencyId // Null for SuperAdmin
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '12h' });
+
+  res.json({ token, role: user.role });
 };
