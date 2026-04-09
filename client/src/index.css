@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@media print {
+  /* 1. Force A4 Portrait with Zero Margins */
+  @page {
+    size: A4 portrait;
+    margin: 0 !important;
+  }
+
+  /* 2. Global Print Force-Graphics */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* 3. Kill the entire web app UI */
+  #root > :not(.print-container-root),
+  nav,
+  footer,
+  header,
+  .no-print,
+  .btn,
+  .steps {
+    display: none !important;
+  }
+
+  /* 4. Force the body to be a clean white slate */
+  body,
+  html {
+    background: white !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* 5. Fix for disappearing borders/radius */
+  .badge-card {
+    border: 1px solid #000 !important; /* Visual cut-line */
+    border-radius: 4mm !important;
+    overflow: hidden !important;
+    -webkit-mask-image: -webkit-radial-gradient(white, black); /* Chrome fix for radius */
+  }
+}

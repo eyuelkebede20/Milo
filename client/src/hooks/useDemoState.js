@@ -17,7 +17,6 @@ export function useDemoState() {
     position: "top-left",
     avatarPosition: "left", // NEW: left, top, right
     showAvatar: true,
-    showName: true, // New state
   });
 
   const handleImageUpload = (e) => {
@@ -78,68 +77,14 @@ export function useDemoState() {
   };
 
   const loadDummyFayda = () => {
-    const dummyString = "UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAQAcJaQAA3AA/v3zgAA=:dummy:Tsegazeab Kebede:dummy:dummy:dummy:Male:dummy:FEY-1234-5678:dummy:2000-01-01:dummy:sig";
+    const dummyString =
+      "UklGRjoCAABXRUJQVlA4IC4CAABwEwCdASpOAGQAP2WgwVizLKejszVdsmAsiWMAzjhtiwbpy0p0rrTiu4iSs5t0YUqF6o0FN9NIGV_q1VndjZn_JRilJmeBOWo6J5WIEDozqjOnFQTbs1_FpSseNUA2WMHALzbGZT-QRvj5Ez1JeG1qG0Nl8DIGjDSzKSno77DhCt14YN9iGs5bc1L7uc4khsBFS4qGKj6ICh0ljysMUuGXEGRfAAD-8EKn3r5a_R6s9OOpNUeULYLJkLtEhr-BjscTjO2jbYthe-B22n-U0uCH7Rz82NDARjXhSYFhMwQGz3UZfGPjKq3t9XiXuGVfIfl0iS-qeqOxVdVla8CEM0PWeeQMaM24S1l9GfL0i4oHskc1m4e3Ka_ehrtffW9KTFrvLZdiaAtre9L65A9NcYlZxC9qh5AAyufYegeU7WjAWPCC1mBraVAA7Q3tO3Rpfcw1QRz6nWAFdFx4EykVItku8d7I4tp-R054l706QZAxfTps3sXn7VzCM8qAU53ZGDi7HOB8ZLSq4CQysnjFfb6a3VioaX54UlQ8-96NrsFjBAfuevsO76fbyzqdIF1mEnjFPHl27-3u-JLL23AO87yTe18UTLRLbUOZpdLZYj1YsPFZZEXQ9-aeEQhMAT87Jj4zypOSzttn-vbMPRx2fNr-VfxdJH38LhHHZCXS38uHMNwYlojdxqlZyoon62BWvUI2Ypngu1DOQUMOCY_vIjdBANTY4BwufiRUohSYkAA:DLT:Eyuel Kebede Zegeye :V:4:G:M:A:3870417260512897:D:2002/06/05:SIGN:eyJhbGciOiJSUzI1NiJ9..bPeVOtsuKs-5xXeiNYXR_PdP84rgGL5010SR_hKPuOlRFRNY-tda10QVeK_9lvjxxNXbuusyG9zgNj6oPuI5KhASIppsDM_EMuviB4pPHDD2a_29DHiXixt54DPViQEw5QK73yc3a3LaNJs0O0HD6RHFzDw8BNJfIsrgkoRwEp0IW_QjTu9RTA1ButbsBKBXLvD786DnUlNFuw4mgtKoLjQZkyy7Cs9QAmuSVCyVcE9-lCw8umORYPXtNIKOaUctqMnAuV5VKgJiDMwVI2TRpXYU9F4lB5tZj6I0PWNRfhRv3PpYg9mo7vudZhgJX84BMUijKtlD1y0m7FTgkWamj";
     handleDecode(dummyString);
   };
   const toggleAvatar = () => setDemoData((prev) => ({ ...prev, showAvatar: !prev.showAvatar }));
-  const toggleName = () => setDemoData((prev) => ({ ...prev, showName: !prev.showName }));
+
   const handlePrint = () => {
-    const printWindow = window.open("", "_blank", "width=1000,height=800");
-    const styles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
-      .map((style) => style.outerHTML)
-      .join("\n");
-
-    const content = document.getElementById("a4-print-container").innerHTML;
-
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Milo ID Print</title>
-          ${styles}
-          <style>
-            @page { size: A4 portrait; margin: 10mm; }
-            body { 
-              background: white !important; 
-              margin: 0 !important; 
-              padding: 0 !important;
-              -webkit-print-color-adjust: exact !important;
-              print-color-adjust: exact !important;
-            }
-            .a4-grid {
-              display: grid !important;
-              grid-template-columns: 90mm 90mm;
-              grid-template-rows: repeat(4, 50mm);
-              gap: 10mm;
-              justify-content: center;
-              padding-top: 5mm;
-            }
-            .badge-unit {
-              width: 90mm !important;
-              height: 50mm !important;
-              position: relative;
-              overflow: hidden;
-              border: 0.5pt solid #eee; /* Light cut line */
-              border-radius: 4mm;
-              background: white;
-            }
-            /* Force text visibility */
-            h2, p, span { color: black !important; opacity: 1 !important; visibility: visible !important; }
-          </style>
-        </head>
-        <body>
-          <div class="a4-grid">${content}</div>
-          <script>
-            window.onload = () => {
-              setTimeout(() => {
-                window.print();
-                window.close();
-              }, 400);
-            };
-          </script>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
+    window.print();
   };
 
   return {
@@ -158,6 +103,7 @@ export function useDemoState() {
     handleQRImageUpload,
     handleDecode,
     loadDummyFayda,
+    toggleAvatar,
     handlePrint,
   };
 }

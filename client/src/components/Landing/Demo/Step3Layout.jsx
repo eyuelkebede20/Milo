@@ -1,6 +1,6 @@
 import { Type, ArrowUpLeft, ArrowUpRight, ArrowDownLeft, ArrowDownRight, AlignCenter, AlignLeft, AlignRight, AlignVerticalJustifyCenter } from "lucide-react";
 
-export default function Step3Layout({ demoData, setDemoData, setStep, setIsPreviewMode }) {
+export default function Step3Layout({ demoData, setDemoData, setStep, setIsPreviewMode, toggleAvatar }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3 mb-2">
@@ -58,6 +58,16 @@ export default function Step3Layout({ demoData, setDemoData, setStep, setIsPrevi
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        {/* Profile Picture Toggle */}
+        <label className="flex items-center justify-between p-4 bg-base-100 rounded-2xl border border-base-content/10 cursor-pointer hover:bg-base-200 transition-colors">
+          <span className="font-bold text-sm">Show Picture</span>
+          <input type="checkbox" className="toggle toggle-primary" checked={demoData.showAvatar} onChange={toggleAvatar} />
+        </label>
+
+        {/* Name Toggle */}
       </div>
 
       <div className="flex gap-3 pt-4 border-t border-base-content/10">
