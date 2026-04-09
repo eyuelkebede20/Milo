@@ -1,9 +1,14 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const upload = require("../middleware/upload");
-const { registerGuest } = require("../controllers/guestController");
+const { protect, restrictTo } = require('../middleware/authMiddleware');
+const { getGuests, checkInGuest } = require('../controllers/guestController');
 
-// Public route: Handles both JSON (Fayda) and Multi-part (Manual)
-router.post("/register", upload.single("photo"), registerGuest);
+router.use(protect); // Apply auth to all routes below
+
+// Only Admins and Event Managers can view the full list
+router.get('/:eventId/guests', restrictTo('SuperAdmin', 'AgencyAdmin', 'EventManager'), getGuests);
+
+// Scanners can check people in, but cannot view the full list
+router.post('/guests/:guestId/checkin', restrictTo('Scanner', 'EventManager', 'AgencyAdmin'), checkInGuest);
 
 module.exports = router;

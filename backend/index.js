@@ -31,6 +31,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/guests", guestRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/admin", adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/guests', guestRoutes);
+app.use('/api/resources', resourceRoutes);
+app.use('/api/import', importRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

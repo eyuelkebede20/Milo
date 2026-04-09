@@ -1,46 +1,38 @@
-const Guest = require("../models/Guest");
-const Event = require("../models/Event");
-const { decodeFaydaQR, downloadAndStoreImage } = require("../services/faydaService");
+const Guest = require('../models/Guest');
+const AuditLog = require('../models/AuditLog');
 
-exports.registerGuest = async (req, res) => {
-  try {
-    const { eventSlug, type, name, phone, email, faydaBase64 } = req.body;
+exports.getGuests = async (req, res) => {
+  const { eventId } = req.params;
 
-    const event = await Event.findOne({ slug: eventSlug });
-    if (!event) return res.status(404).json({ message: "Event not found" });
-
-    let guestData = {
-      eventId: event._id,
-      status: "pending",
-    };
-
-    if (type === "fayda") {
-      const decoded = decodeFaydaQR(faydaBase64);
-      guestData.name = decoded.name;
-      guestData.faydaData = decoded.raw;
-
-      // Initial save to get ID, then download photo
-      const guest = await Guest.create(guestData);
-
-      if (decoded.remotePhotoUrl) {
-        const localPath = await downloadAndStoreImage(decoded.remotePhotoUrl, guest._id);
-        guest.photoUrl = localPath;
-        await guest.save();
-      }
-      return res.status(201).json({ message: "Registration pending admin approval", id: guest._id });
-    }
-
-    // Manual Registration
-    if (!req.file) return res.status(400).json({ message: "Photo is required for manual entry" });
-
-    guestData.name = name;
-    guestData.phone = phone;
-    guestData.email = email;
-    guestData.photoUrl = `/uploads/${req.file.filename}`;
-
-    const guest = await Guest.create(guestData);
-    res.status(201).json({ message: "Registration pending admin approval", id: guest._id });
-  } catch (err) {
-    res.status(500).json({ message: "Registration failed", error: err.message });
+  // Strict Data Isolation: Query MUST include agencyId from the authenticated user token
+  // SuperAdmin bypasses this to see all
+  const query = { eventId };
+  if (req.user.role !== 'SuperAdmin') {
+    query.agencyId = req.user.agencyId; 
   }
+
+  const guests = await Guest.find(query);
+  res.json(guests);
+};
+
+exports.checkInGuest = async (req, res) => {
+  const { guestId } = req.params;
+
+  const guest = await Guest.findOneAndUpdate(
+    { _id: guestId, agencyId: req.user.agencyId }, // Isolation check
+    { isCheckedIn: true, checkInTime: new Date() },
+    { new: true }
+  );
+
+  if (!guest) return res.status(404).json({ error: 'Guest not found or unauthorized' });
+
+  // Create immutable audit log
+  await AuditLog.create({
+    userId: req.user.id,
+    agencyId: req.user.agencyId,
+    action: 'CHECK_IN',
+    details: `Checked in guest ${guestId}`
+  });
+
+  res.json(guest);
 };
