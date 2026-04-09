@@ -38,16 +38,6 @@ export default function DemoSection() {
       </div>
 
       {/* Replace the current <style> tag at the bottom of DemoSection.jsx with this: */}
-
-      <style>{`
-        @media print {
-          body * { visibility: hidden; }
-          .print-target, .print-target * { visibility: visible; }
-          .print-target { position: absolute; left: 0; top: 0; margin: 0; padding: 0; }
-          .print-badge { width: 90mm !important; height: 50mm !important; border: none !important; border-radius: 0 !important; }
-          .screen-preview { transform: none !important; }
-        }
-      `}</style>
     </section>
   );
 }

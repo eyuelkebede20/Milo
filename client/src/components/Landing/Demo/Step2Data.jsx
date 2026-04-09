@@ -2,7 +2,7 @@ import { User, Upload } from "lucide-react";
 
 export default function Step2Data({ demoData, setDemoData, inputMode, setInputMode, handleQRImageUpload, handleDecode, loadDummyFayda, error, setStep }) {
   return (
-    <div className="animate-in fade-in slide-in-from-right-4 space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center gap-3 mb-4">
         <User className="text-primary" />
         <h3 className="font-bold text-xl">Guest Identity</h3>

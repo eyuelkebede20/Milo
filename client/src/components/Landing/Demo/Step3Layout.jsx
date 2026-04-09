@@ -2,7 +2,7 @@ import { Type, ArrowUpLeft, ArrowUpRight, ArrowDownLeft, ArrowDownRight, AlignCe
 
 export default function Step3Layout({ demoData, setDemoData, setStep, setIsPreviewMode }) {
   return (
-    <div className="animate-in fade-in slide-in-from-right-4 space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center gap-3 mb-2">
         <Type className="text-primary" />
         <h3 className="font-bold text-xl">Layout & Print</h3>

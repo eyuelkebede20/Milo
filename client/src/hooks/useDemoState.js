@@ -16,6 +16,8 @@ export function useDemoState() {
     role: "",
     position: "top-left",
     avatarPosition: "left", // NEW: left, top, right
+    showAvatar: true,
+    showName: true, // New state
   });
 
   const handleImageUpload = (e) => {
@@ -79,14 +81,65 @@ export function useDemoState() {
     const dummyString = "UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAQAcJaQAA3AA/v3zgAA=:dummy:Tsegazeab Kebede:dummy:dummy:dummy:Male:dummy:FEY-1234-5678:dummy:2000-01-01:dummy:sig";
     handleDecode(dummyString);
   };
-
+  const toggleAvatar = () => setDemoData((prev) => ({ ...prev, showAvatar: !prev.showAvatar }));
+  const toggleName = () => setDemoData((prev) => ({ ...prev, showName: !prev.showName }));
   const handlePrint = () => {
-    const printContent = printRef.current;
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContent.innerHTML;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload();
+    const printWindow = window.open("", "_blank", "width=1000,height=800");
+    const styles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
+      .map((style) => style.outerHTML)
+      .join("\n");
+
+    const content = document.getElementById("a4-print-container").innerHTML;
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Milo ID Print</title>
+          ${styles}
+          <style>
+            @page { size: A4 portrait; margin: 10mm; }
+            body { 
+              background: white !important; 
+              margin: 0 !important; 
+              padding: 0 !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .a4-grid {
+              display: grid !important;
+              grid-template-columns: 90mm 90mm;
+              grid-template-rows: repeat(4, 50mm);
+              gap: 10mm;
+              justify-content: center;
+              padding-top: 5mm;
+            }
+            .badge-unit {
+              width: 90mm !important;
+              height: 50mm !important;
+              position: relative;
+              overflow: hidden;
+              border: 0.5pt solid #eee; /* Light cut line */
+              border-radius: 4mm;
+              background: white;
+            }
+            /* Force text visibility */
+            h2, p, span { color: black !important; opacity: 1 !important; visibility: visible !important; }
+          </style>
+        </head>
+        <body>
+          <div class="a4-grid">${content}</div>
+          <script>
+            window.onload = () => {
+              setTimeout(() => {
+                window.print();
+                window.close();
+              }, 400);
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
   };
 
   return {
