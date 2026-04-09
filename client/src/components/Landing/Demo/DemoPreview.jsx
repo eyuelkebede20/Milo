@@ -31,7 +31,7 @@ export default function DemoPreview({ demoData, printRef }) {
   return (
     <div className="flex justify-center items-center bg-base-200 p-8 rounded-[2rem] border border-base-content/10 min-h-[400px]">
       <div ref={printRef} className="print-target">
-        <div className="relative border-2 border-black bg-white overflow-hidden w-[340px] h-[189px] print-badge rounded-2xl shadow-xl transition-transform duration-300 hover:scale-105">
+        <div className="relative border-2 border-black bg-white overflow-hidden w-[340px] h-[189px] print-badge rounded-2xl shadow-xl">
           {demoData.bgImage && <img src={demoData.bgImage} alt="bg" className="absolute inset-0 w-full h-full object-cover z-0" />}
 
           <div className={`absolute z-20 pointer-events-none ${getBadgeAnchorClasses()}`}>

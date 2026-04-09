@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>css</title>
+    <style>
+      /* Global Style */
+      body {
+        background-color: #fff;
+        color: #1a1a1a;
+      }
+      .container {
+        display: flex;
+        border: #000, solid;
+        border-color: #000;
+        max-width: 300px;
+      }
+
+      /* Print Override */
+      @media print {
+        body {
+          background-color: #ffffff;
+          color: #000000;
+        }
+        .container {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          max-width: 90mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>this is just a bleh</h1>
+    <div class="container w-[10cm] h-[7cm] border-2 border-black p-4 flex flex-col justify-between bg-white text-black mb-4 mr-4 align-top">
+      <div class="flex justify-between items-start">
+        <div>
+          <h1 class="text-xl font-black uppercase leading-tight">{eventName}</h1>
+          <p class="text-sm border-b-2 border-black pb-1">GUEST PASS</p>
+        </div>
+        <img src="{guest.photoUrl}" class="w-20 h-20 grayscale border border-black object-cover" />
+      </div>
+
+      <div class="mt-2">
+        <h2 class="text-2xl font-bold">{guest.name}</h2>
+        <p class="text-xs">{guest.role || "Attendee"}</p>
+      </div>
+
+      <div class="flex justify-between items-end">
+        <img src="{guest.qrCodeUrl}" class="w-20 h-20" alt="QR" />
+        <div class="text-[8px] uppercase font-mono">ID: {guest._id}</div>
+      </div>
+    </div>
+  </body>
+</html>
